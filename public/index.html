@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style type="text/css">
+.CN_area {
+	width: 90%;
+	margin: 0 auto;
+}
+</style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">CopyNote</a>
+		</div>
+		<!-- <div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+			</ul>
+		</div> -->
+	</div>
+</nav>
+<div class="CN_area">
+	<textarea class="form-control" data-deletegate="CN_input" rows="40"></textarea>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	var lock = true;
+	var num = 0;
+	var pageId = window.location.hash.substr(1);
+	$.ajax({
+        url: "/js/api/getData",
+        dataType: "json",
+        data: {pageId: pageId},
+        success: function(data) {
+            console.log(data)
+            if (data.code == 'A00000') {
+            	$('[data-deletegate="CN_input"]').val(decodeURIComponent(data.data.rows[0].text))
+            }
+        },
+        error: function(data) {
+            console.log(data)
+        }
+    });
+	$('[data-deletegate="CN_input"]').on('change', function() {
+		lock = false;
+		var text = $(this).val();
+		var param = {
+			pageId: pageId,
+			text: encodeURIComponent(text).replace(/'/g, "\\'")
+		}
+		save();
+		function save() {
+			if (num > 20) {
+				alert('网络出错，本次修改未保存！')
+				return false;
+			}
+			num++
+			$.ajax({
+	            url: "/js/api/saveData",
+	            type: 'POST',
+	            data: param,
+	        	dataType: "json",
+	            success: function(data) {
+	                console.log(data)
+	                if (data.code == 'A00000') {
+	                	lock = true;
+	                } else {
+	                	setTimeout(function() {
+	                		save();
+	                	}, 3000)
+	                }
+	            },
+	            error: function(data) {
+	                setTimeout(function() {
+                		save();
+                	}, 3000)
+	            }
+	        });
+		}
+	})
+	window.onbeforeunload = function(){  
+        var warning = "修改为保存，请稍等系统保存!"; 
+        if (!lock) {
+        	return warning;
+        } else {}
+    }
+})
+</script>
+</body>
+</html>

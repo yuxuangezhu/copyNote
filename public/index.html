@@ -16,6 +16,21 @@
 	width: 90%;
 	margin: 0 auto;
 }
+.dn {
+	display: none;
+}
+.CN_box {
+	width: 100%;
+	text-align: center;
+}
+.CN_title {
+	width: 80%;
+	display: inline-block;
+}
+.CN_submit {
+	width: 10%;
+	display: inline-block;
+}
 </style>
 </head>
 <body>
@@ -33,6 +48,10 @@
 		</div> -->
 	</div>
 </nav>
+<div class="CN_box dn">
+	<h3>输入文件地址开始使用</h3>
+	<input type="text" class="CN_title form-control"><button class="CN_submit btn btn-success">确认</button>
+</div>
 <div class="CN_area">
 	<textarea class="form-control" data-deletegate="CN_input" rows="40"></textarea>
 </div>
@@ -41,13 +60,20 @@ $(document).ready(function() {
 	var lock = true;
 	var num = 0;
 	var pageId = window.location.hash.substr(1);
+	if (!pageId) {
+		$('.CN_box').removeClass('dn');
+		$('.CN_area').addClass('dn');
+		$('.CN_submit').on('click', function() {
+			window.location.href = window.location.href + '?#' + $('.CN_title').val();
+		})
+	}
 	$.ajax({
         url: "/js/api/getData",
         dataType: "json",
         data: {pageId: pageId},
         success: function(data) {
             console.log(data)
-            if (data.code == 'A00000') {
+            if (data.code == 'A00000' && data.data.rows.length != 0) {
             	$('[data-deletegate="CN_input"]').val(decodeURIComponent(data.data.rows[0].text))
             }
         },

@@ -124,9 +124,19 @@ $(document).ready(function() {
 		'zhongtong': '中通',
 	}
 	var express = localStorage.getItem('express');
+	var url = window.location.search.substr(1).split('&')
+		url.forEach(function(v) {
+			var ext = v.split('=')
+			if (ext[0]=='order') {
+				express = ext[1]
+			}
+		})
 	if (express) {
 		$('.num_input').val(express);
 		checkNumebr(express);
+		setTimeout(function() {
+			auto();
+		}, 1000)
 	}
 	$('.num_input').on('input', function() {
 		var number = $(this).val();
@@ -143,6 +153,15 @@ $(document).ready(function() {
 			btnClick();
 		}
 	})
+	function auto() {
+		if ($('.name_select').val() == 1) {
+			setTimeout(function() {
+				auto();
+			}, 1000)
+		} else {
+			btnClick();
+		}
+	}
 	function btnClick () {
 		var number = $('.num_input').val();
 		var name = $('.name_select').val();

@@ -37,6 +37,7 @@ app.get('/', function(req, res) {
 })
 
 var Router = express.Router();
+var urlPath = express.Router();
 // var proxy = httpProxy.createProxyServer({});
 // var proxyUrl = 'http://111.206.13.63/'; //线上透传地址
 // var jsBase = ['']; //代理路径配置
@@ -56,7 +57,9 @@ var Router = express.Router();
 //         })
 //     })
 // })
+ 
 
+// 接口路由
 Router.post('/api/saveData', function(req, res) {
     console.log(req.body);
     var pageId = req.body.pageId,
@@ -140,6 +143,12 @@ Router.get('/api/getPhysical', function(req, res) {
         });
     } catch(e) {}
 })
+
+// path路由
+urlPath.get('*', function(req, res) {
+    
+})
 app.use('/js', Router);
+app.use('/', urlPath);
 console.log('Service has been started！');
 module.exports = app;

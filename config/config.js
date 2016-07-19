@@ -1,8 +1,8 @@
 var connection = {
-	host: '',//远程MySQL数据库的ip地址
-	user: '',
-	password: '',
-	database: '',
+	host: '45.62.104.243',//远程MySQL数据库的ip地址
+	user: 'copynote',
+	password: 'copynote@yuxuan',
+	database: 'test',
 	port: '3306'
 };
 var mysql = require('mysql');

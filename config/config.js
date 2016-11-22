@@ -1,7 +1,7 @@
 var connection = {
-	host: '45.62.104.243',//远程MySQL数据库的ip地址
-	user: 'copynote',
-	password: 'copynote@yuxuan',
+	host: '',//远程MySQL数据库的ip地址
+	user: 'e',
+	password: 'c',
 	database: 'test',
 	port: '3306'
 };

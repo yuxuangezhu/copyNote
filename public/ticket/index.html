@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>余票查询</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style type="text/css">
+.dn {
+	display: none;
+}
+</style>
+</head>
+<body>
+<div class="box form-group">
+	
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	var url = window.location.search.substr(1).split('&')
+		url.forEach(function(v) {
+			var ext = v.split('=')
+			if (ext[0]=='order') {
+				express = ext[1]
+			}
+		})
+
+	check({
+		'train_date': '2016-12-16',
+		'from_station': 'BJP',
+		'to_station': 'SHH',
+		'purpose_codes': 'ADULT'
+	}, '/js/api/getTicket', function(data) {
+		console.log(data)
+		$('body').html('data')
+	})
+    function check(parm, url, cb) {
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        data: parm,
+	        success: function(msg) {
+	            cb(msg)
+	        },
+	        error: function(msg) {
+	            cb(msg)
+	        }
+	    });
+    }
+})
+</script>
+</body>
+</html>

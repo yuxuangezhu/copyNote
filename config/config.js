@@ -1,4 +1,4 @@
-var connection = {
+var conn = {
 	host: '45.62.104.243',//远程MySQL数据库的ip地址
 	user: 'copynote',
 	password: 'copynote@yuxuan',
@@ -9,11 +9,11 @@ var mysql = require('mysql');
 
 var pool  = mysql.createPool({
 	connectionLimit: 10,
-	host: connection.host,
-	user: connection.user,
-	password: connection.password,
-	database: connection.database,
-	port: connection.port,
+	host: conn.host,
+	user: conn.user,
+	password: conn.password,
+	database: conn.database,
+	port: conn.port,
 	dateStrings: true,
 	supportBigNumbers: true,
 	bigNumberStrings: true,
